@@ -22,6 +22,7 @@ set nocompatible
 " NOTE comments after Bundle command are not allowed
 "{{{
   " This is required
+  filetype on
   filetype off
 
   " Initialize Vundle
@@ -39,7 +40,6 @@ set nocompatible
   autocmd! bufwritepost .vimrc source %
 
   " Smart indentation
-  set autoindent
   set smartindent
 
   " Tab stops
@@ -149,6 +149,8 @@ set nocompatible
   " Toggle comments with <leader><leader><leader>
   Bundle 'tpope/vim-commentary'
 
+  Bundle 'tpope/vim-characterize'
+
   " toggle comments with <leader>c<space>
   "Bundle 'scrooloose/nerdcommenter'
 
@@ -192,8 +194,8 @@ set nocompatible
 
   " Relative numbering in NORMAL mode
   " Absolute numbering in INSERT mode
-  Bundle 'myusuf3/numbers.vim'
-  nnoremap <F3> :NumbersToggle<CR>
+  " Bundle 'myusuf3/numbers.vim'
+  " nnoremap <F3> :NumbersToggle<CR>
 
   " Mark long lines
   "set colorcolumn=80
@@ -202,7 +204,9 @@ set nocompatible
   set cursorline
 
   " Font
-  set guifont=Mensch\ for\ Powerline\ 8
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline
+  " set guifont=Iosevka\ Bold
+  set guifont=Hack\ Regular
 
   " Theme
   set background=dark
@@ -213,7 +217,7 @@ set nocompatible
   if has('gui_running')
     colorscheme wombat256mod
   else
-    colorscheme desert
+    colorscheme wombat256mod
   end
 
   " Remove gui toolbar
@@ -227,7 +231,7 @@ set nocompatible
 "{{{
   Bundle 'Lokaltog/vim-powerline'
 
-  let g:Powerline_symbols = 'fancy'
+  let g:Powerline_symbols = 'unicode'
 
   " Turn on statusbar
   set ruler
@@ -254,13 +258,14 @@ set nocompatible
   Bundle 'ravinggenius/vim-open'
 
   " Projects Directory
-  let g:project_dir = '~/Code'
-  let g:open_dir_auto_open_nerdtree = 0
+  let g:project_dir = '~/workspaces'
+  let g:open_dir_auto_open_nerdtree = 1
   let g:open_dir_callback = 'CtrlP'
 
   Bundle 'scrooloose/nerdtree'
   let g:NERDTreeChDirMode=2
   map <F9> :NERDTreeToggle<CR>
+  map ,r :NERDTreeFind<CR>
 "}}}
 
 
@@ -271,6 +276,7 @@ set nocompatible
 
   "nmap <leader>o :CtrlP<CR>
   let g:ctrlp_working_path_mode = 2
+  let g:ctrlp_show_hidden = 1
 
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
   set wildignore+=*/.sass-cache/*,*/tmp/*,*/.tmp/*,*.so
@@ -305,16 +311,16 @@ set nocompatible
   vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
   " Turn off training wheels in NORMAL mode
-  nnoremap <up> <nop>
-  nnoremap <down> <nop>
-  nnoremap <left> <nop>
-  nnoremap <right> <nop>
+  " nnoremap <up> <nop>
+  " nnoremap <down> <nop>
+  " nnoremap <left> <nop>
+  " nnoremap <right> <nop>
 
   " Turn off training wheels in INSERT mode
-  inoremap <up> <nop>
-  inoremap <down> <nop>
-  inoremap <left> <nop>
-  inoremap <right> <nop>
+  " inoremap <up> <nop>
+  " inoremap <down> <nop>
+  " inoremap <left> <nop>
+  " inoremap <right> <nop>
 
   " Move up and down by screen lines, not file lines
   nnoremap j gj
@@ -326,6 +332,9 @@ set nocompatible
   " Keep at least 2 lines left/right
   set sidescrolloff=2
 "}}}
+
+nnoremap <Leader>Q :%s/=\(\x\x\<BAR>\n\)/\=submatch(1)=='\n'?'':nr2char('0x'.submatch(1))/ge<CR>
+vnoremap <Leader>Q :s/=\(\x\x\<BAR>\n\)/\=submatch(1)=='\n'?'':nr2char('0x'.submatch(1))/ge<CR>
 
 
 " INTEGRATION (GIT)
@@ -359,6 +368,46 @@ set nocompatible
   Bundle 'tpope/vim-rails.git'
   Bundle 'vim-ruby/vim-ruby'
 "}}}
+" autocmd FileType ruby setlocal noballooneval
+
+" INTEGRATION (SLIM)
+"{{{
+  Bundle 'slim-template/vim-slim.git'
+"}}}
+
+" INTEGRATION (CoffeeScript)
+"{{{
+  Bundle 'kchmck/vim-coffee-script.git'
+"}}}
+
+" INTEGRATION (Mustache/Handlebars)
+"{{{
+  Bundle 'mustache/vim-mustache-handlebars.git'
+"}}}
+
+" INTEGRATION (Mustache/Handlebars)
+"{{{
+  Bundle 'heartsentwined/vim-emblem'
+"}}}
+
+" SPEED UP CtrlP with C extension
+"{{{
+  Bundle 'JazzCore/ctrlp-cmatcher'
+  let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+"}}}
+
+"{{{
+  Bundle 'vim-scripts/copy-as-rtf'
+"}}}
+
+"{{{
+  Bundle 'vim-scripts/fountain.vim'
+"}}}
+
+"{{{
+  Bundle 'jlanzarotta/bufexplorer'
+"}}}
+map <C-b> :BufExplorer<CR>`
 
 
 " Detect file formats
